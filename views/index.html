@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Placeholder Generator | iamickdev</title>
+    <meta name="description" content="A simple image placeholder generator tool to create placeholder images for your projects.">
+    <meta name="keywords" content="image placeholder generator, placeholder image, image placeholder, image generator, placeholder generator, iamickdev">
+    <meta name="author" content="iamickdev">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#ffc107">
+    <meta name="msapplication-TileColor" content="#ffc107">
+    <link rel="apple-touch-icon" sizes="192x192" href="/favicon/android-icon-192x192.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="/favicon/android-icon-512x512.png">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <meta property="og:title" content="Image Placeholder Generator | iamickdev">
+    <meta property="og:description" content="A simple image placeholder generator tool to create placeholder images for your projects.">
+    <meta property="og:image" content="/favicon/android-icon-192x192.png">
+
+    <meta property="twitter:title" content="Image Placeholder Generator | iamickdev">
+    <meta property="twitter:description" content="A simple image placeholder generator tool to create placeholder images for your projects.">
+    <meta property="twitter:image" content="/favicon/android-icon-192x192.png">
+
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "url": "https://www.iamickdev.com",
+            "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://www.iamickdev.com/landing?q={search_term_string}",
+                "query-input": "required name=search_term_string"
+            }
+        }
+    </script>
+    
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <style>
+        @keyframes rainbow-bg {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        body {
+            background: linear-gradient(124deg, #f5725e, #ee4f4f, #ffdb64, #f5f853, #94ffa6, #66f7ff, #7167ff, #f588ff, #f369ff);
+            background-size: 1800% 1800%;
+            animation: rainbow-bg 18s ease infinite;
+        }
+        .custom-number-input::-webkit-inner-spin-button,
+        .custom-number-input::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .custom-number-input {
+            -moz-appearance: textfield;
+        }
+        .content-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            height: fit-content;
+        }
+        .dark-mode {
+            background: #121212 !important;
+            color: #e4e4e4;
+        }
+        .dark-mode .content-container {
+            background-color: rgba(18, 18, 18, 0.9);
+            border:  1px solid #333;
+        }
+        .dark-mode .navbar {
+            background-color: #1f1f1f !important;
+        }
+        .dark-mode .text-gray-800,
+        .dark-mode .text-gray-700 {
+            color: #e4e4e4 !important;
+        }
+
+        .dark-mode input, .dark-mode select {
+            background-color: #1f1f1f;
+            border-color: #333;
+            color: #e4e4e4;
+        }
+
+        .dark-mode footer {
+            background-color: #1f1f1f;
+            color: #e4e4e4;
+        }
+
+        /* code style */
+        code {
+            display: block;
+            padding: 1rem;
+            margin-top: 1rem;
+            background-color: #f7f7f7;
+            border-left: 5px solid #ffc107;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            color: #333;
+            font-family: monospace;
+        }
+
+        .dark-mode code {
+            background-color: #333;
+            border-left: 5px solid #ffc107;
+            color: #e4e4e4;
+        }
+
+        .dark-mode .text-red-500 {
+            color: #f56565;
+        }
+
+        @media (min-width: 640px) {
+            .content-container {
+                width: 80%;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <!-- Navbar -->
+    <nav class="navbar mb-12 bg-white dark:bg-gray-900 shadow-md">
+        <div class="container mx-auto p-4 flex justify-between items-center">
+            <a href="/" title="www.iamickdkev.com" class="text-xl font-bold text-gray-800 dark:text-gray-200">iamickdev</a>
+            <div class="flex items-center space-x-4">
+                <a href="/" class="text-gray-800 dark:text-gray-200 hover:underline">Home</a>
+                <a href="/docs" class="text-gray-800 dark:text-gray-200 hover:underline">Docs</a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="flex items-center space-x-2">
+                    <input type="checkbox" id="rainbow" class="hidden">
+                    <label for="rainbow" class="text-gray-800 dark:text-gray-200 text-sm cursor-pointer flex items-center">
+                        <i id="icon" class="fa fa-eye-slash mr-2" title="Toggle rainbow animated background for light mode."></i>
+                        <!-- Disable Background -->
+                    </label>
+                </div>
+                <button id="darkModeToggle" class="focus:outline-none" title="Toggle dark / light mode">
+                    <i id="darkModeIcon" class="fa fa-moon text-gray-800 dark:text-gray-200"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto p-8 rounded-lg shadow-lg content-container flex-grow">
+        <h1 class="text-4xl font-bold mb-6 text-center text-gray-800 dark:text-gray-200">Image Placeholder Generator</h1>
+        <form id="imageForm" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="width" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Width (px)</label>
+                    <input id="width" type="number" name="width" value="300" class="custom-number-input mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-yellow-500 focus:border-yellow-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                </div>
+                <div>
+                    <label for="height" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Height (px)</label>
+                    <input id="height" type="number" name="height" value="200" class="custom-number-input mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-yellow-500 focus:border-yellow-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                </div>
+                <div>
+                    <label for="text" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Text</label>
+                    <input id="text" type="text" name="text" placeholder="Enter placeholder text" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-yellow-500 focus:border-yellow-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                </div>
+                <div>
+                    <label for="bg" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Background Color</label>
+                    <input id="bg" type="color" name="bg" value="#E5E5E5" class="mt-1 block w-full h-10 border border-gray-300 rounded-md p-1 focus:ring-yellow-500 focus:border-yellow-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                </div>
+                <div>
+                    <label for="border" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Border Color</label>
+                    <input id="border" type="color" name="border" value="#000000" class="mt-1 block w-full h-10 border border-gray-300 rounded-md p-1 focus:ring-yellow-500 focus:border-yellow-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                </div>
+                <div>
+                    <label for="textcolor" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Text Color</label>
+                    <input id="textcolor" type="color" name="textcolor" value="#000000" class="mt-1 block w-full h-10 border border-gray-300 rounded-md p-1 focus:ring-yellow-500 focus:border-yellow-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                </div>
+                <div>
+                    <label for="format" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Image Format</label>
+                    <select id="format" name="format" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-yellow-500 focus:border-yellow-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                        <option value="svg">SVG</option>
+                        <option value="png">PNG</option>
+                        <option value="jpg">JPG</option>
+                        <option value="jpeg">JPEG</option>
+                    </select>
+                </div>
+            </div>
+            <div class="flex justify-center">
+                <button type="submit" class="w-full px-6 py-3 bg-yellow-600 text-white font-semibold rounded-md hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition duration-150 ease-in-out">
+                    <!-- Generate icon -->
+                    <i class="fa fa-image mr-2"></i>
+
+                    Generate Image</button>
+            </div>
+        </form>
+        <div id="urlBox" class="mt-6 hidden">
+            <label for="imageUrl" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Image URL</label>
+            <div class="mt-1 flex rounded-md shadow-sm">
+                <input type="text" id="imageUrl" class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-l-md border border-gray-300 focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white" readonly>
+                <button type="button" id="copyButton" class="inline-flex items-center px-3 py-2 border border-l-0 border-gray-300 rounded-r-md bg-yellow-300 text-gray-500 text-sm hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 dark:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-700">
+                   <!-- Copy icon -->
+                    <i class="fa fa-copy mr-2"></i>
+                    Copy
+                </button>
+            </div>
+        </div>
+        <div id="result" class="mt-8 flex justify-center hidden"></div>
+            <code id="img-raw" class="hidden grow"></code>
+        
+        <div class="flex justify-center my-4">
+            <button id="download"  class="w-full px-6 py-3 bg-yellow-600 text-white font-semibold rounded-md hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition duration-150 ease-in-out hidden">
+                <!-- Download icon -->
+                <i class="fa fa-download mr-2"></i>
+                Save as file</button>
+        </div>
+    </div>
+
+    <footer class="bg-white py-8 text-xl mt-12">
+        <div class="container mx-auto p-4 text-center text-gray-800 dark:text-gray-200">
+            <p>Made with ❤️ by <a href="https://www.iamickdev.com" class="hover:underline font-bold">iamickdev</a></p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('imageForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const width = document.getElementById('width').value || '';
+            const height = document.getElementById('height').value || '';
+            const text = document.getElementById('text').value || '';
+            const bg = document.getElementById('bg').value.slice(1); // Remove '#' from color
+            const border = document.getElementById('border').value.slice(1);
+            const textcolor = document.getElementById('textcolor').value.slice(1);
+            const format = document.getElementById('format').value;
+
+            let url = `/${format}`;
+            if (width) url += `/${width}`;
+            if (height) url += `/${height}`;
+            if (text) url += `/${encodeURIComponent(text)}`;
+            url += `?bg=${bg}&border=${border}&textcolor=${textcolor}`;
+
+            // Update URL box
+            document.getElementById('urlBox').classList.remove('hidden');
+            document.getElementById('imageUrl').value = window.location.origin + url;
+
+            fetch(url)
+                .then(response => response.blob())
+                .then(blob => {
+                    const resultDiv = document.getElementById('result');
+                    const img = document.createElement('img');
+                    img.src = URL.createObjectURL(blob);
+                    img.alt = 'Generated placeholder image';
+                    img.className = 'max-w-full h-auto border border-gray-300 rounded-md shadow-md dark:border-gray-600';
+                    resultDiv.innerHTML = '';
+                    resultDiv.appendChild(img);
+
+                    if(resultDiv.classList.contains('hidden')) {
+                        resultDiv.classList.remove('hidden');
+                    }
+
+                    //if svg, show raw svg code in code block below image
+                    if (format === 'svg') {
+                        blob.text().then(svg => {
+                            document.getElementById('img-raw').textContent = svg;
+                            document.getElementById('img-raw').classList.remove('hidden');
+                        });
+                    } else {
+                        //if not svg, render base64 image
+                        document.getElementById('img-raw').classList.remove('hidden');
+
+                        const reader = new FileReader();
+                        reader.onload = function() {
+                            document.getElementById('img-raw').textContent = reader.result;
+                        };
+                        reader.readAsDataURL(blob);
+                    }
+
+                    // Show download button
+                    if(document.getElementById('download').classList.contains('hidden')) {
+                        document.getElementById('download').classList.remove('hidden');
+                    }
+
+                    document.getElementById('download').addEventListener('click', function() {
+                        const a = document.createElement('a');
+                        a.href = URL.createObjectURL(blob);
+                        a.download = 'iamickdev_placeholder-image_' + new Date().getTime() + '.' + format;
+                        a.click();
+                    });
+
+                    // Scroll to result
+                    setTimeout(() => {
+                        resultDiv.scrollIntoView({ behavior: 'smooth' });
+                    }, 100);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('result').innerHTML = `<p class="text-red-500">Error generating image: ${error.message}</p>`;
+                });
+        });
+
+        document.getElementById('copyButton').addEventListener('click', function() {
+            const imageUrl = document.getElementById('imageUrl');
+            imageUrl.select();
+            document.execCommand('copy');
+            this.textContent = 'Copied!';
+            setTimeout(() => {
+                this.textContent = 'Copy';
+            }, 2000);
+        });
+
+        // Toggle rainbow background
+        document.getElementById('rainbow').addEventListener('change', function() {
+            const body = document.querySelector('body');
+            const icon = document.getElementById('icon');
+            if (this.checked) {
+                body.style.background = 'none';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+
+            } else {
+                body.style.background = 'linear-gradient(124deg, #f5725e, #ee4f4f, #ffdb64, #f5f853, #94ffa6, #66f7ff, #7167ff, #f588ff, #f369ff)';
+                body.style.backgroundSize = '1800% 1800%';
+                body.style.animation = 'rainbow-bg 18s ease infinite';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            }
+        });
+
+        // Toggle dark mode
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        darkModeToggle.addEventListener('click', () => {
+            const body = document.body;
+            body.classList.toggle('dark-mode');
+            const darkModeIcon = document.getElementById('darkModeIcon');
+            if (body.classList.contains('dark-mode')) {
+                darkModeIcon.classList.remove('fa-moon');
+                darkModeIcon.classList.add('fa-sun');
+                localStorage.setItem("darkMode", "disabled")
+            } else {
+                darkModeIcon.classList.remove('fa-sun');
+                darkModeIcon.classList.add('fa-moon');
+                localStorage.setItem("darkMode", "enabled")
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+        const hostname = document.location.origin
+        document.querySelectorAll('#hostname').forEach((e)=>{
+            e.textContent = hostname
+        })
+
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkModeIcon = document.getElementById('darkModeIcon');
+        const body = document.body;
+
+        // Check local storage for dark mode preference
+        if (localStorage.getItem('darkMode') === 'enabled') {
+          body.classList.add('dark-mode');
+          darkModeIcon.classList.replace('fa-moon', 'fa-sun');
+        }
+      });
+    </script>
+</body>
+</html>

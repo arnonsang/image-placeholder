@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Docs | Image Placeholder Generator | iamickdev</title>
+  <meta name="description" content="A simple image placeholder generator tool to create placeholder images for your projects.">
+    <meta name="keywords" content="image placeholder generator, placeholder image, image placeholder, image generator, placeholder generator, iamickdev">
+    <meta name="author" content="iamickdev">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#ffc107">
+    <meta name="msapplication-TileColor" content="#ffc107">
+    <link rel="apple-touch-icon" sizes="192x192" href="/favicon/android-icon-192x192.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="/favicon/android-icon-512x512.png">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <meta property="og:title" content="Docs | Image Placeholder Generator | iamickdev">
+    <meta property="og:description" content="A simple image placeholder generator tool to create placeholder images for your projects.">
+    <meta property="og:image" content="/favicon/android-icon-192x192.png">
+
+    <meta property="twitter:title" content="Docs | Image Placeholder Generator | iamickdev">
+    <meta property="twitter:description" content="A simple image placeholder generator tool to create placeholder images for your projects.">
+    <meta property="twitter:image" content="/favicon/android-icon-192x192.png">
+
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "url": "https://www.iamickdev.com",
+            "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://www.iamickdev.com/landing?q={search_term_string}",
+                "query-input": "required name=search_term_string"
+            }
+        }
+    </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <style>
+    @keyframes rainbow-bg {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    body {
+      background: linear-gradient(124deg,
+          #f5725e,
+          #ee4f4f,
+          #ffdb64,
+          #f5f853,
+          #94ffa6,
+          #66f7ff,
+          #7167ff,
+          #f588ff,
+          #f369ff);
+      background-size: 1800% 1800%;
+      animation: rainbow-bg 18s ease infinite;
+    }
+
+    .dark-mode {
+      background: #121212 !important;
+      color: #e4e4e4;
+    }
+
+    .content-container {
+      background-color: rgba(255, 255, 255, 0.9);
+      height: fit-content;
+    }
+
+    .dark-mode {
+      background: #121212 !important;
+      color: #e4e4e4;
+    }
+
+    .dark-mode .content-container {
+      background-color: rgba(18, 18, 18, 0.9);
+      border: 1px solid #333;
+    }
+
+    .dark-mode .navbar {
+      background-color: #1f1f1f !important;
+    }
+
+    .dark-mode .text-gray-800,
+    .dark-mode .text-gray-700,
+    .dark-mode .text-gray-600 {
+      color: #e4e4e4 !important;
+    }
+
+    .dark-mode .bg-white {
+      background-color: rgba(61, 61, 61, 0.9) !important;
+      color: #ffffff !important;
+    }
+
+    .dark-mode pre,
+    .dark-mode code {
+      background-color: rgba(71, 71, 71, 0.9) !important;
+      color: #ffffff !important;
+    }
+
+    .dark-mode input,
+    .dark-mode select {
+      background-color: #1f1f1f;
+      border-color: #333;
+      color: #e4e4e4;
+    }
+
+
+    .dark-mode footer {
+      background-color: #1f1f1f;
+      color: #e4e4e4;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen">
+  <!-- Navbar -->
+  <nav class="navbar bg-white dark:bg-gray-900 shadow-md">
+    <div class="container mx-auto p-4 flex justify-between items-center">
+      <a href="/"  title="www.iamickdkev.com" class="text-xl font-bold text-gray-800 dark:text-gray-200">iamickdev</a>
+      <div class="flex items-center space-x-4">
+        <a href="/" class="text-gray-800 dark:text-gray-200 hover:underline">Home</a>
+        <a href="/docs" class="text-gray-800 dark:text-gray-200 hover:underline">Docs</a>
+      </div>
+      <div class="flex items-center space-x-4">
+        <div class="flex items-center space-x-2">
+          <input type="checkbox" id="rainbow" class="hidden" />
+          <label for="rainbow" class="text-gray-800 dark:text-gray-200 text-sm cursor-pointer flex items-center"
+            title="Toggle rainbow animated background for light mode.">
+            <i id="icon" class="fa fa-eye-slash mr-2"></i>
+            <!-- Disable Background -->
+          </label>
+        </div>
+        <button id="darkModeToggle" class="focus:outline-none" title="Toggle dark / light mode">
+          <i id="darkModeIcon" class="fa fa-moon text-gray-800 dark:text-gray-200"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mx-auto my-12 p-8 rounded-lg shadow-lg content-container">
+    <h1 class="text-4xl font-bold mb-8 text-center text-gray-800 dark:text-gray-200">Image Placeholder Generator
+      Documentation</h1>
+
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+      <h2 class="text-2xl font-semibold mb-4 text-gray-800 dark:text-gray-200">Web UI Usage</h2>
+      <p class="mb-4 text-gray-600 dark:text-gray-400">The Web UI provides an intuitive interface for generating
+        placeholder images:</p>
+      <ol class="list-decimal list-inside space-y-2 mb-4 text-gray-600 dark:text-gray-400">
+        <li>Enter the desired width and height for your image.</li>
+        <li>Optionally, add custom text to appear on the image.</li>
+        <li>Select colors for the background, border, and text.</li>
+        <li>Choose the image format (SVG, PNG, or JPEG).</li>
+        <li>Click the "Generate Image" button.</li>
+        <li>The generated image will appear below the form.</li>
+        <li>Copy the provided URL, svg code, base64 image or download to use the image on your website.</li>
+      </ol>
+      <p class="text-gray-600 dark:text-gray-400">You can adjust any parameters and regenerate the image as needed, It's
+        require only format and width.</p>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+      <h2 class="text-2xl font-semibold mb-4 text-gray-800 dark:text-gray-200">API Documentation</h2>
+      <p class="mb-4 text-gray-600 dark:text-gray-400">
+        The Image Placeholder Generator API allows you to generate images programmatically. Here are the available
+        endpoints:
+      </p>
+
+      <h3 class="text-xl font-semibold mt-6 mb-2 text-gray-800 dark:text-gray-200">Base URL</h3>
+      <pre
+        class="bg-gray-100 dark:bg-gray-900 p-2 rounded text-gray-800 dark:text-gray-300"><code id="hostname"></code></pre>
+
+      <h3 class="text-xl font-semibold mt-6 mb-2 text-gray-800 dark:text-gray-200">Endpoints</h3>
+      <ul class="list-disc list-inside space-y-4 text-gray-600 dark:text-gray-400">
+        <li>
+          <code class="bg-gray-100 dark:bg-gray-900 p-1 rounded">GET /:format</code>
+          <p class="mt-2">Generates an image with default size (150x150) and no text.</p>
+        </li>
+        <li>
+          <code class="bg-gray-100 dark:bg-gray-900 p-1 rounded">GET /:format/:width</code>
+          <p class="mt-2">Generates an image with specified width and height.</p>
+        </li>
+        <li>
+          <code class="bg-gray-100 dark:bg-gray-900 p-1 rounded">GET /:format/:width/:height</code>
+          <p class="mt-2">Generates an image with specified width and height.</p>
+        </li>
+        <li>
+          <code class="bg-gray-100 dark:bg-gray-900 p-1 rounded">GET /:format/:width/:height/:text</code>
+          <p class="mt-2">Generates an image with specified dimensions and custom text.</p>
+        </li>
+        <li>
+          <del><code
+              class="bg-gray-100 dark:bg-gray-900 p-1 rounded">GET /:format/:width/:height/:text/:font</code></del>
+          <p class="mt-2">Generates an image with all custom parameters. (Coming soon)</p>
+        </li>
+      </ul>
+
+      <h3 class="text-xl font-semibold mt-6 mb-2 text-gray-800 dark:text-gray-200">Parameters</h3>
+      <ul class="list-disc list-inside space-y-2 text-gray-600 dark:text-gray-400">
+        <li><b><code>format</code></b>: Image format (svg, png, jpg or jpeg) </li>
+        <li><b><code>width</code></b>: Image width in pixels</li>
+        <li><b><code>height</code></b>: Image height in pixels</li>
+        <li><b><code>text</code></b>: Custom text to display on the image (URL-encoded)</li>
+        <li><b><code>_</code></b>: Skip the value of the parameter by passing <code>_</code> as the value</li>
+      </ul>
+
+      <h3 class="text-xl font-semibold mt-6 mb-2 text-gray-800 dark:text-gray-200">Query Parameters</h3>
+      <ul class="list-disc list-inside space-y-2 text-gray-600 dark:text-gray-400">
+        <li><b><code>bg</code></b>: Background color (hex code without #)</li>
+        <li><b><code>border</code></b>: Border color (hex code without #)</li>
+        <li><b><code>textcolor</code></b>: Text color (hex code without #)</li>
+      </ul>
+
+      <h3 class="text-xl font-semibold mt-6 mb-2 text-gray-800 dark:text-gray-200">Example Usage</h3>
+      <ul class=" space-y-4 text-gray-600 dark:text-gray-400">
+        <li>
+          <a href="/png/300" class="hover:underline" title="Click to view the generated image" target="_blank" rel="noopener">
+            <pre
+              class="bg-gray-100 dark:bg-gray-900 p-2 rounded text-gray-800 dark:text-gray-300"><code><span id="hostname"></span>/png/300</code></pre>
+          </a>
+          <p class="mt-2 text-gray-600 dark:text-gray-400">This will generate a 300x300 PNG image.</p>
+        </li>
+        <li>
+          <a href="/svg/300/500" class="hover:underline" title="Click to view the generated image" target="_blank" rel="noopener">
+            <pre
+              class="bg-gray-100 dark:bg-gray-900 p-2 rounded text-gray-800 dark:text-gray-300"><code><span id="hostname"></span>/svg/300/500</code></pre>
+          </a>
+          <p class="mt-2 text-gray-600 dark:text-gray-400">This will generate a 300x500 SVG image.</p>
+        </li>
+        <li>
+          <a href="/jpg/400/200/Hello%20World" class="hover:underline" title="Click to view the generated image" target="_blank" rel="noopener">
+            <pre
+              class="bg-gray-100 dark:bg-gray-900 p-2 rounded text-gray-800 dark:text-gray-300"><code><span id="hostname"></span>/jpg/400/200/Hello%20World</code></pre>
+          </a>
+          <p class="mt-2 text-gray-600 dark:text-gray-400">This will generate a 400x200 JPEG image with the text "Hello
+            World".</p>
+        </li>
+        <li>
+          <a href="/svg/1280/1024/Hello%20World?bg=ff0000&border=000000&textcolor=ffffff" class="hover:underline" title="Click to view the generated image" target="_blank" rel="noopener">
+            <pre
+              class="bg-gray-100 dark:bg-gray-900 p-2 rounded text-gray-800 dark:text-gray-300"><code><span id="hostname"></span>/svg/1280/1024/Hello%20World?bg=ff0000&border=000000&textcolor=ffffff</code></pre>
+          </a>
+          <p class="mt-2 text-gray-600 dark:text-gray-400">This will generate a 1280x1024 SVG image with a red background,
+            black border, and white text.</p>
+        </li>
+
+        <li>
+          <a href="/svg/_/_/Hello?bg=ff0000&border=000000&textcolor=ffffff" class="hover:underline" title="Click to view the generated image" target="_blank" rel="noopener">
+            <pre
+              class="bg-gray-100 dark:bg-gray-900 p-2 rounded text-gray-800 dark:text-gray-300"><code><span id="hostname"></span>/svg/_/_/Hello?bg=ff0000&border=000000&textcolor=ffffff</code></pre>
+          </a>
+          <p class="mt-2 text-gray-600 dark:text-gray-400">This will skip the width and height to use default value and generate a SVG image with a red background,
+            black border, and white text.</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <footer class="bg-white py-8  text-xl">
+    <div class="container mx-auto p-4 text-center text-gray-800 dark:text-gray-200">
+      <p>Made with ❤️ by <a href="https://www.iamickdev.com" class="hover:underline font-bold">iamickdev</a></p>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const hostname = document.location.origin
+      document.querySelectorAll('#hostname').forEach((e) => {
+        e.textContent = hostname
+      })
+
+      const darkModeToggle = document.getElementById('darkModeToggle');
+      const darkModeIcon = document.getElementById('darkModeIcon');
+      const body = document.body;
+
+      // Check local storage for dark mode preference
+      if (localStorage.getItem('darkMode') === 'enabled') {
+        body.classList.add('dark-mode');
+        darkModeIcon.classList.replace('fa-moon', 'fa-sun');
+      }
+
+      // Toggle dark mode
+      darkModeToggle.addEventListener('click', () => {
+
+        if (body.classList.contains('dark-mode')) {
+          body.classList.remove('dark-mode');
+          darkModeIcon.classList.replace('fa-sun', 'fa-moon');
+          localStorage.setItem('darkMode', 'disabled');
+        } else {
+          body.classList.add('dark-mode');
+          darkModeIcon.classList.replace('fa-moon', 'fa-sun');
+          localStorage.setItem('darkMode', 'enabled');
+        }
+      });
+
+      // Toggle rainbow background
+      document.getElementById('rainbow').addEventListener('change', function () {
+        const body = document.querySelector('body');
+        const icon = document.getElementById('icon');
+        if (this.checked) {
+          body.style.background = 'none';
+          icon.classList.remove('fa-eye-slash');
+          icon.classList.add('fa-eye');
+
+        } else {
+          body.style.background = 'linear-gradient(124deg, #f5725e, #ee4f4f, #ffdb64, #f5f853, #94ffa6, #66f7ff, #7167ff, #f588ff, #f369ff)';
+          body.style.backgroundSize = '1800% 1800%';
+          body.style.animation = 'rainbow-bg 18s ease infinite';
+          icon.classList.remove('fa-eye');
+          icon.classList.add('fa-eye-slash');
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

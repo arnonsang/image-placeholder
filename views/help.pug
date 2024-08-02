@@ -1,0 +1,59 @@
+doctype html
+html
+  head
+    title SVG Placeholder Generator
+    link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css")
+  body(class="bg-gray-100")
+    .container.mx-auto.p-4
+      h1.text-4xl.font-bold.mb-4 SVG Placeholder Generator
+      form#svgForm(class="space-y-4")
+        .flex.flex-col.md:flex-row.md:space-x-4
+          .flex-grow
+            label.block.text-sm.font-medium.text-gray-700(for="width") Width
+            input#width(type="number" name="width" value="300" class="mt-1 block w-full border border-gray-300 rounded-md p-2")
+          .flex-grow
+            label.block.text-sm.font-medium.text-gray-700(for="height") Height
+            input#height(type="number" name="height" value="200" class="mt-1 block w-full border border-gray-300 rounded-md p-2")
+        .flex.flex-col.md:flex-row.md:space-x-4
+          .flex-grow
+            label.block.text-sm.font-medium.text-gray-700(for="text") Text
+            input#text(type="text" name="text" class="mt-1 block w-full border border-gray-300 rounded-md p-2")
+          .flex-grow
+            label.block.text-sm.font-medium.text-gray-700(for="font") Font Family
+            input#font(type="text" name="font" value="Arial, sans-serif" class="mt-1 block w-full border border-gray-300 rounded-md p-2")
+        .flex.flex-col.md:flex-row.md:space-x-4
+          .flex-grow
+            label.block.text-sm.font-medium.text-gray-700(for="bg") Background Color
+            input#bg(type="color" name="bg" value="#E5E5E5" class="mt-1 block w-full border border-gray-300 rounded-md p-2")
+          .flex-grow
+            label.block.text-sm.font-medium.text-gray-700(for="border") Border Color
+            input#border(type="color" name="border" value="#000000" class="mt-1 block w-full border border-gray-300 rounded-md p-2")
+          .flex-grow
+            label.block.text-sm.font-medium.text-gray-700(for="textcolor") Text Color
+            input#textcolor(type="color" name="textcolor" value="#000000" class="mt-1 block w-full border border-gray-300 rounded-md p-2")
+        button(type="submit" class="mt-4 px-4 py-2 bg-yellow-500 text-white rounded-md") Generate SVG
+      
+      #result.mt-8
+
+    script.
+      document.getElementById('svgForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const width = document.getElementById('width').value || '_';
+        const height = document.getElementById('height').value || '_';
+        const text = document.getElementById('text').value || '_';
+        const font = document.getElementById('font').value || '_';
+        const bg = document.getElementById('bg').value.slice(1); // Remove '#' from color
+        const border = document.getElementById('border').value.slice(1);
+        const textcolor = document.getElementById('textcolor').value.slice(1);
+
+        const url = `/svg/${width}/${height}/${encodeURIComponent(text)}/${encodeURIComponent(font)}?bg=${bg}&border=${border}&textcolor=${textcolor}`;
+        
+        fetch(url)
+          .then(response => response.text())
+          .then(svg => {
+            document.getElementById('result').innerHTML = svg;
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+      });
