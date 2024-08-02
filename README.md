@@ -35,7 +35,7 @@ A single-file simple image placeholder generator tool to create placeholder imag
 
 | Parameter | Description | Default |
 | --------- | ----------- | ------- |
-| `format`  | Image format (png, jpg, jpeg) | `-` |
+| `format`  | Image format (png, jpg, jpeg) |  |
 | `width`   | Image width in pixels | `150` |
 | `height`  | Image height in pixels | `150` |
 | `text`    | Text to display on the image | `width x height` |
@@ -113,4 +113,4 @@ Made with ❤️ by **[iamickdev](https://www.iamickdev.com)**
 - Website: [www.iamickdev.com](https://www.iamickdev.com)
 - Github: [@arnonsang](https://github.com/arnonsang)
 
----# image-placeholder
+---
