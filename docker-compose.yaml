@@ -1,0 +1,13 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: img-placeholder
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./public:/app/public
+    environment:
+      - ENV_VAR=value
+    restart: unless-stopped
