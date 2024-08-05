@@ -17,6 +17,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cache"
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/favicon"
 	"github.com/gofiber/fiber/v2/middleware/healthcheck"
 	"github.com/gofiber/fiber/v2/middleware/helmet"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
@@ -63,6 +64,10 @@ func main() {
 		Title: "Image Placeholder Service Monitor",
 	}))
 
+	app.Use(favicon.New(favicon.Config{
+		File: "./public/favicon.ico",
+	}))
+
 	// Serve static files
 	app.Static("/", "./public")
 
@@ -82,7 +87,7 @@ func main() {
 	app.Get("/:format/:width/:height/:text", generateImage)
 	app.Get("/:format/:width/:height/:text/:font", generateImage)
 
-	log.Fatal(app.Listen(":4000"))
+	log.Fatal(app.Listen(":9922"))
 }
 
 func generateImage(c *fiber.Ctx) error {
