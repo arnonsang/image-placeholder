@@ -87,7 +87,7 @@ func main() {
 	app.Get("/:format/:width/:height/:text", generateImage)
 	app.Get("/:format/:width/:height/:text/:font", generateImage)
 
-	log.Fatal(app.Listen(":9922"))
+	log.Fatal(app.Listen(":4000"))
 }
 
 func generateImage(c *fiber.Ctx) error {
