@@ -39,7 +39,18 @@ func main() {
 
 	//security middleware
 	app.Use(cors.New())
-	app.Use(helmet.New())
+	app.Use(helmet.New(helmet.Config{
+    		ContentSecurityPolicy: helmet.ContentSecurityPolicyConfig{
+        		Directives: map[string][]string{
+            			"default-src": {"*"},
+            			"img-src":     {"*"},
+            			"font-src":    {"*"},
+            			"style-src":   {"*"},
+            			"script-src":  {"*"},
+        		},
+    		},
+	}))
+
 	app.Use(limiter.New(limiter.Config{
 		Next: func(c *fiber.Ctx) bool {
 			return c.IP() == "127.0.0.1"
