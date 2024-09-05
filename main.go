@@ -19,7 +19,6 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/favicon"
 	"github.com/gofiber/fiber/v2/middleware/healthcheck"
-	"github.com/gofiber/fiber/v2/middleware/helmet"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/monitor"
@@ -39,17 +38,6 @@ func main() {
 
 	//security middleware
 	app.Use(cors.New())
-	app.Use(helmet.New(helmet.Config{
-    		ContentSecurityPolicy: helmet.ContentSecurityPolicyConfig{
-        		Directives: map[string][]string{
-            			"default-src": {"*"},
-            			"img-src":     {"*"},
-            			"font-src":    {"*"},
-            			"style-src":   {"*"},
-            			"script-src":  {"*"},
-        		},
-    		},
-	}))
 
 	app.Use(limiter.New(limiter.Config{
 		Next: func(c *fiber.Ctx) bool {
