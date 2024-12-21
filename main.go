@@ -113,9 +113,10 @@ func generateImage(c *fiber.Ctx) error {
 		text, _ = url.QueryUnescape(text)
 	}
 
-	bgColor := c.Query("bg", "E5E5E5")
-	borderColor := c.Query("border", "000000")
-	textColor := c.Query("textcolor", "A0A0A0")
+	// Ensure hex colors have proper format
+	bgColor := strings.TrimPrefix(c.Query("bg", "E5E5E5"), "#")
+	borderColor := strings.TrimPrefix(c.Query("border", "000000"), "#")
+	textColor := strings.TrimPrefix(c.Query("textcolor", "A0A0A0"), "#")
 
 	switch format {
 	case "svg":
@@ -134,13 +135,33 @@ func generateImage(c *fiber.Ctx) error {
 }
 
 func generateSVGContent(width, height int, text, bgColor, borderColor, textColor string) string {
-	fontSize := int(math.Min(float64(width), float64(height)) * 0.1)
+	// Calculate font size based on image dimensions with a minimum size
+	// For smaller images, use a larger relative size to maintain readability
+	var fontSize int
+	minDimension := math.Min(float64(width), float64(height))
+	if minDimension <= 100 {
+		fontSize = int(minDimension * 0.3) // 30% of size for small images
+	} else if minDimension <= 300 {
+		fontSize = int(minDimension * 0.2) // 20% of size for medium images
+	} else {
+		fontSize = int(minDimension * 0.1) // 10% of size for large images
+	}
+
+	// Ensure minimum font size for readability
+	if fontSize < 12 {
+		fontSize = 12
+	}
 
 	svgTemplate := `<svg width="%d" height="%d" xmlns="http://www.w3.org/2000/svg">
-		<style type="text/css"></style>
-		<rect width="100%%" height="100%%" fill="#%s" stroke="#%s" stroke-width="1"/>
-		<text x="50%%" y="50%%" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="%d" fill="#%s">%s</text>
-	</svg>`
+        <style type="text/css">
+            text {
+                font-family: Arial, sans-serif;
+                font-weight: bold;
+            }
+        </style>
+        <rect width="100%%" height="100%%" fill="#%s" stroke="#%s" stroke-width="1"/>
+        <text x="50%%" y="50%%" dominant-baseline="middle" text-anchor="middle" font-size="%d" fill="#%s">%s</text>
+    </svg>`
 
 	return fmt.Sprintf(svgTemplate, width, height, bgColor, borderColor, fontSize, textColor, text)
 }
@@ -150,26 +171,42 @@ func generateImageContent(c *fiber.Ctx, format string, width, height int, text, 
 
 	bgColorParsed, err := parseHexColor(bgColor)
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).SendString("Invalid background color")
+		return c.Status(fiber.StatusBadRequest).SendString("Invalid background color format")
 	}
 	dc.SetColor(bgColorParsed)
 	dc.Clear()
 
 	borderColorParsed, err := parseHexColor(borderColor)
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).SendString("Invalid border color")
+		return c.Status(fiber.StatusBadRequest).SendString("Invalid border color format")
 	}
 	dc.SetColor(borderColorParsed)
 	dc.DrawRectangle(0, 0, float64(width), float64(height))
 	dc.Stroke()
 
-	fontSize := int(math.Min(float64(width), float64(height)) * 0.1)
-	dc.SetRGB(0, 0, 0)
-	dc.LoadFontFace("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", float64(fontSize))
-	dc.FontHeight()
+	// Calculate font size with similar logic to SVG
+	minDimension := math.Min(float64(width), float64(height))
+	var fontSize float64
+	if minDimension <= 100 {
+		fontSize = minDimension * 0.3
+	} else if minDimension <= 300 {
+		fontSize = minDimension * 0.2
+	} else {
+		fontSize = minDimension * 0.1
+	}
+
+	// Ensure minimum font size
+	if fontSize < 12 {
+		fontSize = 12
+	}
+
+	if err := dc.LoadFontFace("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", fontSize); err != nil {
+		return c.Status(fiber.StatusInternalServerError).SendString("Failed to load font")
+	}
+
 	textColorParsed, err := parseHexColor(textColor)
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).SendString("Invalid text color")
+		return c.Status(fiber.StatusBadRequest).SendString("Invalid text color format")
 	}
 	dc.SetColor(textColorParsed)
 	dc.DrawStringAnchored(text, float64(width)/2, float64(height)/2, 0.5, 0.5)
@@ -179,10 +216,7 @@ func generateImageContent(c *fiber.Ctx, format string, width, height int, text, 
 	case "png":
 		c.Set("Content-Type", "image/png")
 		err = dc.EncodePNG(&buf)
-	case "jpeg":
-		c.Set("Content-Type", "image/jpeg")
-		err = jpeg.Encode(&buf, dc.Image(), nil)
-	case "jpg":
+	case "jpeg", "jpg":
 		c.Set("Content-Type", "image/jpeg")
 		err = jpeg.Encode(&buf, dc.Image(), nil)
 	default:
